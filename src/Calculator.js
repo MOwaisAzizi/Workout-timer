@@ -9,15 +9,8 @@ function Calculator({ workouts, allowSound }) {
   const [duration,setDuration] = useState(0)
   // const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
 
-  // const playSound = useCallback(function () {
-  //   if (!allowSound) return;
-  //   const sound = new Audio(clickSound);
-  //   sound.play();
-  // },[allowSound]);
-
   useEffect(function(){
     setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak)
-    // playSound()
   },[number,sets,speed,durationBreak])//playSound
 
   useEffect(function(){
@@ -35,12 +28,16 @@ function Calculator({ workouts, allowSound }) {
 
   function handleInc(){
     setDuration(duration=>Math.floor(duration+1))
-    // playSound()
   }
   function handleDec(){
     setDuration(duration=>duration >= 0 ? Math.floor(duration-1): 0)
-    // playSound()
   }
+
+  //this is closer that save the number at render time 
+  // and after rerender the component not create again and alse have the old value of nunber
+  useEffect(function(){
+    document.title = `you have ${number} exercises`
+  },[])
 
   return (
     <>
@@ -102,6 +99,6 @@ function Calculator({ workouts, allowSound }) {
     </>
   );
 }
-////anotehr way of using use memo
+////anotehr way of using memo
 
 export default memo(Calculator);
